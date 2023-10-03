@@ -5,7 +5,6 @@ var salt = bcrypt.genSaltSync(10);
 
 let createNewUser = async (data) => {
   return new Promise(async (resolve, reject) => {
-    console.log(data);
     try {
       let hashPasswordFromBcrypt = await hashUserPassword(data.password);
       await db.User.create({
@@ -24,8 +23,6 @@ let createNewUser = async (data) => {
       reject(e);
     }
   });
-  // console.log("data from services");
-  // console.log(hashPasswordFromBcrypt);
 };
 
 let hashUserPassword = (password) => {
@@ -42,7 +39,7 @@ let hashUserPassword = (password) => {
 let getAllUser = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      let users = db.User.findAll();
+      let users = await db.User.findAll();
       resolve(users);
     } catch (e) {
       reject(e);
@@ -50,7 +47,65 @@ let getAllUser = () => {
   });
 };
 
+let getUserInfoById = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = await db.User.findOne({ where: { id: userId }, raw: true });
+      if (user) {
+        resolve(user);
+      } else {
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let updateUserData = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = await db.User.findOne({
+        where: { id: data.id }, raw:false
+      });
+      if (user) {
+        user.firstName = data.firstName;
+        user.lastName = data.lastName;
+        user.address = data.address;
+        await user.save();
+        //  await console.log(db.User.findAll());
+        let allUsers = await db.User.findAll();
+        resolve(allUsers);
+      } else {
+      }
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+let deleteUserById = (userId) => {
+  console.log("hello",userId);
+return new Promise(async(resolve, reject) => {
+  try{
+let user = await db.User.findOne({
+  where: {id: userId}
+})
+if(user){
+   await user.destroy()
+}
+resolve();
+  }catch(e){
+    reject(e)
+  }
+})
+
+}
+
 module.exports = {
   createNewUser: createNewUser,
   getAllUser: getAllUser,
+  getUserInfoById: getUserInfoById,
+  updateUserData: updateUserData,
+  deleteUserById: deleteUserById,
 };
