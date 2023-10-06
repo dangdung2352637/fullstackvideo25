@@ -24,8 +24,8 @@ let handleLogin = async (req, res) => {
     //compare password
     //return userInfor
     //accee_token:JWWT json web token
-    errCode:1,
-    meesage:'missing inputs parameter!',
+    errCode:userData.errCode,
+    meesage:userData.errMeesage,
     user: userData.user ? userData.user : {}
   });
 };
