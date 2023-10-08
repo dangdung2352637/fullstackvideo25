@@ -1,6 +1,5 @@
 import userService from "../sevices/userService";
 
-
 let handleLogin = async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
@@ -13,9 +12,6 @@ let handleLogin = async (req, res) => {
     });
   }
 
-
-
-
   let userData = await userService.handleUserLogin(email, password);
   console.log("userdata", userData);
 
@@ -24,12 +20,25 @@ let handleLogin = async (req, res) => {
     //compare password
     //return userInfor
     //accee_token:JWWT json web token
-    errCode:userData.errCode,
-    meesage:userData.errMeesage,
-    user: userData.user ? userData.user : {}
+    errCode: userData.errCode,
+    meesage: userData.errMeesage,
+    user: userData.user ? userData.user : {},
+  });
+};
+
+let handleGetAllUsers = async (req, res) => {
+  let id = req.body.id;
+  let users = await userService.getAllUsers(id);
+  console.log(users);
+
+  return res.status(200).json({
+    errCode: 0,
+    errMeesage: "ok",
+    users,
   });
 };
 
 module.exports = {
   handleLogin: handleLogin,
+  handleGetAllUsers: handleGetAllUsers,
 };
