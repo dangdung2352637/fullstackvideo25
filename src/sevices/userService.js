@@ -174,6 +174,7 @@ let updateUserData = (data) => {
   
     try{
       if(!data.id){
+        console.log("check data node",data);
         resolve({
           errCode:2,
           message: 'missing required parameter'
