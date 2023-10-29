@@ -37,7 +37,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       gender: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
       },
       image: {
         type: Sequelize.STRING
@@ -45,7 +45,7 @@ module.exports = {
       roleId: {
         type: Sequelize.STRING
       },
-      poisitionId: {
+      positionId: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -62,3 +62,5 @@ module.exports = {
     await queryInterface.dropTable('Users');
   }
 };
+
+
