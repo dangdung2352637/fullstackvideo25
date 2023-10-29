@@ -21,7 +21,7 @@ let handleUserLogin = (email, password) => {
       let isExist = await checkUserEmail(email);
       if (isExist) {
         let user = await db.User.findOne({
-          attributes: ["email", "roleId", "password","firstName","lastName"],
+          attributes: ["email", "roleId", "password", "firstName", "lastName"],
           where: { email: email },
           raw: true,
         });
@@ -128,7 +128,7 @@ let CreateNewUser = (data) => {
           gender: data.gender,
           image: data.image,
           roleId: data.roleId,
-          positionId:data.positionId
+          positionId: data.positionId,
         });
         resolve({
           errCode: 0,
@@ -167,7 +167,7 @@ let updateUserData = (data) => {
   console.log("data", data);
   return new Promise(async (resolve, reject) => {
     try {
-      if (!data.id) {
+      if (!data.id || !data.roleId || !data.positionId || !data.gender) {
         console.log("check data node", data);
         resolve({
           errCode: 2,
@@ -180,9 +180,13 @@ let updateUserData = (data) => {
       });
       console.log("user", user);
       if (user) {
-        (user.firstName = data.firstName),
-          (user.lastName = data.lastName),
-          (user.address = data.address);
+        user.firstName = data.firstName;
+        user.lastName = data.lastName;
+        user.address = data.address;
+        user.roleId = data.roleId;
+        user.positionId = data.positionId;
+        user.gender = data.gender;
+        user.phonenumber = data.phonenumber;
 
         await user.save();
 
