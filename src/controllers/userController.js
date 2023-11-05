@@ -4,7 +4,6 @@ import CRUDServices from "../sevices/CRUDServices";
 let handleLogin = async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
-  console.log("email", !email);
 
   if (!email || !password) {
     return res.status(500).json({
@@ -14,7 +13,6 @@ let handleLogin = async (req, res) => {
   }
 
   let userData = await userService.handleUserLogin(email, password);
-  console.log("userdata", userData);
 
   return res.status(200).json({
     // check email exist
@@ -30,7 +28,6 @@ let handleLogin = async (req, res) => {
 let handleGetAllUsers = async (req, res) => {
   let id = req.query.id;
   let users = await userService.getAllUsers(id);
-  console.log(users);
 
   return res.status(200).json({
     errCode: 0,
@@ -66,7 +63,6 @@ let getAllCode = async (req, res) => {
     let data = await userService.getAllCodeService(req.query.type);
     return res.status(200).json(data);
   } catch (e) {
-    console.log("get all code", e);
     return res.status(200).json({
       errCode: -1,
       errMeesage: "error from server",

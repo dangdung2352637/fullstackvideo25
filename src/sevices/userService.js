@@ -26,13 +26,9 @@ let handleUserLogin = (email, password) => {
           raw: true,
         });
         if (user) {
-          console.log("user ---", user);
-          console.log("password", password);
-          console.log("user-password", user.password);
+
           //compare password
-          let check = await bcrypt.compareSync(password, user.password);
-          console.log("check--", check);
-          // let check = true
+          let check = await bcrypt.compareSync(password, user.password);          // let check = true
           if (check) {
             userData.errCode = 0;
             userData.errMeesage = "ok";
@@ -65,8 +61,7 @@ let checkUserEmail = (userEmail) => {
       let user = await db.User.findOne({
         where: { email: userEmail },
       });
-      console.log("user:", user);
-      console.log("useremail", userEmail);
+
       if (user) {
         resolve(true);
       } else {
@@ -90,7 +85,6 @@ let getAllUsers = (userId) => {
         });
       }
       if (userId && userId !== "ALL") {
-        console.log("1", 1);
         users = await db.User.findOne({
           where: { id: userId },
           attributes: {
@@ -165,11 +159,9 @@ let deleteUser = (userId) => {
 };
 
 let updateUserData = (data) => {
-  console.log("data", data);
   return new Promise(async (resolve, reject) => {
     try {
       if (!data.id || !data.roleId || !data.positionId || !data.gender) {
-        console.log("check data node", data);
         resolve({
           errCode: 2,
           message: "missing required parameter",
@@ -179,7 +171,6 @@ let updateUserData = (data) => {
         where: { id: data.id },
         raw: false,
       });
-      console.log("user", user);
       if (user) {
         user.firstName = data.firstName;
         user.lastName = data.lastName;
@@ -220,7 +211,6 @@ let updateUserData = (data) => {
 let getAllCodeService = (typeInput) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(typeInput);
       if (!typeInput) {
         resolve({
           errCode: 1,
